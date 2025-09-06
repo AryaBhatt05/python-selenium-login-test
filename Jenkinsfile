@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/AryaBhatt05/python-selenium-login-test.git', branch: 'main'
+                git branch: 'main', url: 'https://github.com/AryaBhatt05/python-selenium-login-test.git'
             }
         }
 
         stage('Setup Environment') {
             steps {
                 bat '''
-                python -m venv venv
+                "C:\\Users\\aryab\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m venv venv
                 call venv\\Scripts\\activate
                 pip install --upgrade pip
                 pip install -r requirements.txt
