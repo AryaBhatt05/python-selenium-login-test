@@ -4,27 +4,34 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/AryaBhatt05/python-selenium-login-test.git'
+                git url: 'https://github.com/AryaBhatt05/python-selenium-login-test.git', branch: 'main'
             }
         }
 
         stage('Setup Environment') {
             steps {
-                sh 'python3 -m venv venv'
-                sh '. venv/bin/activate && pip install -r requirements.txt'
+                bat '''
+                python -m venv venv
+                call venv\\Scripts\\activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
             }
         }
 
         stage('Run Selenium Tests') {
             steps {
-                sh '. venv/bin/activate && pytest --junitxml=test-results.xml'
+                bat '''
+                call venv\\Scripts\\activate
+                pytest --junitxml=results.xml
+                '''
             }
         }
     }
 
     post {
         always {
-            junit 'test-results.xml'
+            junit 'results.xml'
         }
     }
 }
